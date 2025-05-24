@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useNavigate } from "react-router-dom"
+import { useRouter } from "next/navigation";
 
 export default function WelcomePage() {
-  const navigate = useNavigate()
+  const router = useRouter();
 
   return (
     <div className="welcome-container">
@@ -12,15 +12,15 @@ export default function WelcomePage() {
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</p>
 
         <div className="button-container">
-          <button className="btn-primary" onClick={() => navigate("/register")}>
+          <button className="btn-primary" onClick={() => router.push("/register")}>
             Create Account
           </button>
 
-          <button className="btn-secondary" onClick={() => navigate("/login")}>
+          <button className="btn-secondary" onClick={() => router.push("/login")}>
             Already Registered? Login
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
