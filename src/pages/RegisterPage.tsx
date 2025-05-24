@@ -1,34 +1,35 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-  const navigate = useNavigate()
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
-    fullName: "Marry Doe",
-    phoneNumber: "Marry Doe",
-    email: "Marry Doe",
-    password: "Marry Doe",
-    companyName: "Marry Doe",
-    isAgency: "yes",
-  })
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+    companyName: "",
+    isAgency: "",
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target
+    const { name, value, type, id } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "radio" ? e.target.id : value,
-    })
-  }
+      [name]: type === "radio" ? id : value,
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, you would validate and submit the form data
-    navigate("/account")
-  }
+    e.preventDefault();
+
+    // TODO: Validate form data here before navigation
+
+    router.push("/account");
+  };
 
   return (
     <div className="page-container">
@@ -40,22 +41,29 @@ export default function RegisterPage() {
         </h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
         <div className="input-group">
           <label htmlFor="fullName" className="required">
             Full Name
           </label>
-          <input id="fullName" name="fullName" type="text" value={formData.fullName} onChange={handleChange} required />
+          <input
+            id="fullName"
+            name="fullName"
+            type="text"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="input-group">
           <label htmlFor="phoneNumber" className="required">
-            Phone number
+            Phone Number
           </label>
           <input
             id="phoneNumber"
             name="phoneNumber"
-            type="text"
+            type="tel"
             value={formData.phoneNumber}
             onChange={handleChange}
             required
@@ -64,9 +72,16 @@ export default function RegisterPage() {
 
         <div className="input-group">
           <label htmlFor="email" className="required">
-            Email address
+            Email Address
           </label>
-          <input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="input-group">
@@ -84,8 +99,14 @@ export default function RegisterPage() {
         </div>
 
         <div className="input-group">
-          <label htmlFor="companyName">Company name</label>
-          <input id="companyName" name="companyName" type="text" value={formData.companyName} onChange={handleChange} />
+          <label htmlFor="companyName">Company Name</label>
+          <input
+            id="companyName"
+            name="companyName"
+            type="text"
+            value={formData.companyName}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="mb-8">
@@ -123,5 +144,5 @@ export default function RegisterPage() {
         </div>
       </form>
     </div>
-  )
+  );
 }
