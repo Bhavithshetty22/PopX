@@ -1,26 +1,24 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const router = useRouter(); // ✅ Correct hook for Next.js
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, you would validate and authenticate here
-    navigate("/account")
-  }
+    e.preventDefault();
+    // TODO: Add actual authentication logic
+    router.push("/account"); // ✅ Navigates to /account
+  };
 
   return (
     <div className="page-container">
       <div className="mb-12">
         <h1>
-          Signin to your
+          Sign in to your
           <br />
           PopX account
         </h1>
@@ -61,5 +59,5 @@ export default function LoginPage() {
         </button>
       </form>
     </div>
-  )
+  );
 }
