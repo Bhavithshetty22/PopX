@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PopX App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+    }
+    
+    #root {
+      max-width: 480px;
+      margin: 0 auto;
+      background-color: white;
+      min-height: 100vh;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      font-size: 1.25rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    
+    .btn-primary {
+      background-color: #6c25ff;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .btn-secondary {
+      background-color: #d9d0ff;
+      color: #000;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .btn-gray {
+      background-color: #d3d3d3;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    .input-group label {
+      color: #6c25ff;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+    
+    .input-group label.required::after {
+      content: "*";
+      color: #6c25ff;
+    }
+    
+    .input-group input {
+      border: 1px solid #e0e0e0;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+    }
+    
+    .radio-group {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 0.5rem;
+    }
+    
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .radio-option input[type="radio"] {
+      appearance: none;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid #d3d3d3;
+      border-radius: 50%;
+      position: relative;
+    }
+    
+    .radio-option input[type="radio"]:checked {
+      border-color: #6c25ff;
+    }
+    
+    .radio-option input[type="radio"]:checked::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0.75rem;
+      height: 0.75rem;
+      background-color: #6c25ff;
+      border-radius: 50%;
+    }
+    
+    .page-container {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .welcome-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .account-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .profile-section {
+      background-color: #f9f9f9;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .profile-image-container {
+      position: relative;
+    }
+    
+    .profile-image {
+      width: 6rem;
+      height: 6rem;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #e0e0e0;
+    }
+    
+    .camera-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: #6c25ff;
+      color: white;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .profile-info h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .profile-info p {
+      font-size: 1.25rem;
+      margin-bottom: 0;
+    }
+    
+    .bio-section {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .mb-12 {
+      margin-bottom: 3rem;
+    }
+
+    .mb-8 {
+      margin-bottom: 2rem;
+    }
+
+    .mb-2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .mt-auto {
+      margin-top: auto;
+    }
+
+    .pt-8 {
+      padding-top: 2rem;
+    }
+
+    .space-y-6 > * + * {
+      margin-top: 1.5rem;
+    }
+
+    .space-y-4 > * + * {
+      margin-top: 1rem;
+    }
+
+    .block {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Load React -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    // App Component
+    function App() {
+      const [currentPage, setCurrentPage] = React.useState('welcome');
+
+      const navigateTo = (page) => {
+        setCurrentPage(page);
+      };
+
+      // Render the appropriate page based on currentPage state
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'welcome':
+            return <WelcomePage navigateTo={navigateTo} />;
+          case 'login':
+            return <LoginPage navigateTo={navigateTo} />;
+          case 'register':
+            return <RegisterPage navigateTo={navigateTo} />;
+          case 'account':
+            return <AccountPage navigateTo={navigateTo} />;
+          default:
+            return <WelcomePage navigateTo={navigateTo} />;
+        }
+      };
+
+      return renderPage();
+    }
+
+    // Welcome Page Component
+    function WelcomePage({ navigateTo }) {
+      return (
+        <div className="welcome-container">
+          <div>
+            <h1>Welcome to PopX</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,</p>
+
+            <div className="button-container">
+              <button className="btn-primary" onClick={() => navigateTo('register')}>
+                Create Account
+              </button>
+
+              <button className="btn-secondary" onClick={() => navigateTo('login')}>
+                Already Registered? Login
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Login Page Component
+    function LoginPage({ navigateTo }) {
+      const [email, setEmail] = React.useState('');
+      const [password, setPassword] = React.useState('');
+
+      const handleLogin = (e) => {
+        e.preventDefault();
+        // In a real app, you would validate and authenticate here
+        navigateTo('account');
+      };
+
+      return (
+        <div className="page-container">
+          <div className="mb-12">
+            <h1>
+              Signin to your<br />
+              PopX account
+            </h1>
+            <p>
+              Lorem ipsum dolor sit amet,<br />
+              consectetur adipiscing elit,
+            </p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="input-group">
+              <label htmlFor="email">Email Address</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Enter email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn-gray">
+              Login
+            </button>
+          </form>
+        </div>
+      );
+    }
+
+    // Register Page Component
+    function RegisterPage({ navigateTo }) {
+      const [formData, setFormData] = React.useState({
+        fullName: "Marry Doe",
+        phoneNumber: "Marry Doe",
+        email: "Marry Doe",
+        password: "Marry Doe",
+        companyName: "Marry Doe",
+        isAgency: "yes",
+      });
+
+      const handleChange = (e) => {
+        const { name, value, type, id } = e.target;
+        setFormData({
+          ...formData,
+          [name]: type === "radio" ? id : value,
+        });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        // In a real app, you would validate and submit the form data
+        navigateTo('account');
+      };
+
+      return (
+        <div className="page-container">
+          <div className="mb-8">
+            <h1>
+              Create your<br />
+              PopX account
+            </h1>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="input-group">
+              <label htmlFor="fullName" className="required">
+                Full Name
+              </label>
+              <input 
+                id="fullName" 
+                name="fullName" 
+                type="text" 
+                value={formData.fullName} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="phoneNumber" className="required">
+                Phone number
+              </label>
+              <input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="text"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="email" className="required">
+                Email address
+              </label>
+              <input 
+                id="email" 
+                name="email" 
+                type="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="password" className="required">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="companyName">Company name</label>
+              <input 
+                id="companyName" 
+                name="companyName" 
+                type="text" 
+                value={formData.companyName} 
+                onChange={handleChange} 
+              />
+            </div>
+
+            <div className="mb-8">
+              <label className="required block mb-2">Are you an Agency?</label>
+              <div className="radio-group">
+                <div className="radio-option">
+                  <input
+                    type="radio"
+                    id="yes"
+                    name="isAgency"
+                    checked={formData.isAgency === "yes"}
+                    onChange={handleChange}
+                    required
+                  />
+                  <label htmlFor="yes">Yes</label>
+                </div>
+                <div className="radio-option">
+                  <input
+                    type="radio"
+                    id="no"
+                    name="isAgency"
+                    checked={formData.isAgency === "no"}
+                    onChange={handleChange}
+                    required
+                  />
+                  <label htmlFor="no">No</label>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-auto pt-8">
+              <button type="submit" className="btn-primary">
+                Create Account
+              </button>
+            </div>
+          </form>
+        </div>
+      );
+    }
+
+    // Account Page Component
+    function AccountPage() {
+      return (
+        <div>
+          <div className="account-header">
+            <h1>Account Settings</h1>
+          </div>
+
+          <div className="profile-section">
+            <div className="profile-image-container">
+              <div className="profile-image"></div>
+              <div className="camera-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path>
+                  <circle cx="12" cy="13" r="3"></circle>
+                </svg>
+              </div>
+            </div>
+
+            <div className="profile-info">
+              <h2>Marry Doe</h2>
+              <p>Marry@Gmail.Com</p>
+            </div>
+          </div>
+
+          <div className="bio-section">
+            <p>
+              Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut Labore Et
+              Dolore Magna Aliquyam Erat, Sed Diam
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // Render the App
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
